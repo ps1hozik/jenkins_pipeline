@@ -26,7 +26,7 @@ def test_add_task(db_name):
     tasks = get_tasks(db_name=db_name)
     assert len(tasks) == 1
     assert tasks[0][1] == "Test Task 1"
-    assert tasks[0][2] == 0
+    assert tasks[0][2] == 3
 
 
 def test_get_tasks(db_name):

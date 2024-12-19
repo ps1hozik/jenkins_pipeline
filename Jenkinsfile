@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.12'
-        }
-    }
+    agent any
     stages {
         stage('Clone') {
             steps {
@@ -12,12 +8,20 @@ pipeline {
         }
         stage('Install dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                    python3 -m venv .venv
+                    . .venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                '''
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'python -m pytest'
+                sh '''
+                    . .venv/bin/activate
+                    python -m pytest
+                '''
             }
         }
         stage('Build Docker Image') {
